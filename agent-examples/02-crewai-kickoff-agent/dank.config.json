@@ -1,0 +1,50 @@
+{
+  "name": "02-crewai-kickoff-agent",
+  "version": "1",
+  "agents": [
+    {
+      "name": "crewai-agent",
+      "id": "crewai-agent",
+      "entry": {
+        "file": "crewai_agent.py",
+        "symbol": "agent",
+        "method": "kickoff",
+        "call_type": "method",
+        "call_style": "kwargs"
+      },
+      "io": {
+        "input": {
+          "model": null,
+          "schema": {
+            "type": "object",
+            "required": ["prompt"],
+            "properties": {
+              "prompt": { "type": "string" },
+              "audience": { "type": "string" },
+              "user_id": { "type": ["string", "null"] },
+              "conversation_id": { "type": ["string", "null"] }
+            },
+            "additionalProperties": true
+          }
+        },
+        "output": {
+          "model": null,
+          "schema": {
+            "type": "object",
+            "required": ["response"],
+            "properties": {
+              "response": { "type": "string" },
+              "framework": { "type": "string" },
+              "mode": { "type": "string" },
+              "user_id": { "type": ["string", "null"] },
+              "conversation_id": { "type": ["string", "null"] }
+            },
+            "additionalProperties": true
+          }
+        },
+        "strict_output": true
+      }
+    }
+  ],
+  "bundles": []
+}

@@ -1,0 +1,57 @@
+{
+  "name": "my-python-project",
+  "version": "1",
+  "agents": [
+    {
+      "name": "support-agent",
+      "id": "support-agent",
+      "entry": {
+        "file": "agent.py",
+        "symbol": "agent",
+        "method": null,
+        "call_type": "auto",
+        "call_style": "auto"
+      },
+      "io": {
+        "input": {
+          "model": null,
+          "schema": {
+            "type": "object",
+            "required": [
+              "prompt"
+            ],
+            "properties": {
+              "prompt": {
+                "type": "string"
+              },
+              "user_id": {
+                "type": "string"
+              },
+              "conversation_id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "output": {
+          "model": null,
+          "schema": {
+            "type": "object",
+            "required": [
+              "response"
+            ],
+            "properties": {
+              "response": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "strict_output": true
+      }
+    }
+  ],
+  "bundles": []
+}

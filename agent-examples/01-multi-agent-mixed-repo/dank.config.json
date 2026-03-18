@@ -1,0 +1,140 @@
+{
+  "name": "01-multi-agent-mixed-repo",
+  "version": "1",
+  "agents": [
+    {
+      "name": "langchain-tool-agent",
+      "id": "langchain-tool-agent",
+      "entry": {
+        "file": "langchain_tool_agent.py",
+        "symbol": "agent",
+        "method": "invoke",
+        "call_type": "method",
+        "call_style": "kwargs"
+      },
+      "io": {
+        "input": {
+          "model": null,
+          "schema": {
+            "type": "object",
+            "required": ["prompt"],
+            "properties": {
+              "prompt": { "type": "string" },
+              "keyword": { "type": "string" },
+              "user_id": { "type": ["string", "null"] },
+              "conversation_id": { "type": ["string", "null"] }
+            },
+            "additionalProperties": true
+          }
+        },
+        "output": {
+          "model": null,
+          "schema": {
+            "type": "object",
+            "required": ["response"],
+            "properties": {
+              "response": { "type": "string" },
+              "framework": { "type": "string" },
+              "tool_used": { "type": "string" },
+              "word_count": { "type": "integer" },
+              "keyword_matches": { "type": "integer" },
+              "mode": { "type": "string" },
+              "model": {},
+              "user_id": { "type": ["string", "null"] },
+              "conversation_id": { "type": ["string", "null"] }
+            },
+            "additionalProperties": true
+          }
+        },
+        "strict_output": true
+      }
+    },
+    {
+      "name": "langgraph-state-agent",
+      "id": "langgraph-state-agent",
+      "entry": {
+        "file": "langgraph_state_agent.py",
+        "symbol": "run",
+        "method": null,
+        "call_type": "auto",
+        "call_style": "kwargs"
+      },
+      "io": {
+        "input": {
+          "model": null,
+          "schema": {
+            "type": "object",
+            "required": ["prompt"],
+            "properties": {
+              "prompt": { "type": "string" },
+              "user_id": { "type": ["string", "null"] },
+              "conversation_id": { "type": ["string", "null"] }
+            },
+            "additionalProperties": true
+          }
+        },
+        "output": {
+          "model": null,
+          "schema": { "type": "string" }
+        },
+        "strict_output": true
+      }
+    },
+    {
+      "name": "custom-openai-agent",
+      "id": "custom-openai-agent",
+      "entry": {
+        "file": "custom_openai_agent.py",
+        "symbol": "run",
+        "method": null,
+        "call_type": "auto",
+        "call_style": "kwargs"
+      },
+      "io": {
+        "input": {
+          "model": null,
+          "schema": {
+            "type": "object",
+            "required": ["prompt"],
+            "properties": {
+              "prompt": { "type": "string" },
+              "user_id": { "type": ["string", "null"] },
+              "conversation_id": { "type": ["string", "null"] },
+              "model": { "type": ["string", "null"] }
+            },
+            "additionalProperties": true
+          }
+        },
+        "output": {
+          "model": null,
+          "schema": {
+            "type": "object",
+            "required": ["response"],
+            "properties": {
+              "response": {},
+              "framework": { "type": "string" },
+              "mode": { "type": "string" },
+              "model": {},
+              "user_id": { "type": ["string", "null"] },
+              "conversation_id": { "type": ["string", "null"] }
+            },
+            "additionalProperties": true
+          }
+        },
+        "strict_output": true
+      }
+    }
+  ],
+  "bundles": [
+    {
+      "name": "all-agents",
+      "agents": [
+        "langchain-tool-agent",
+        "langgraph-state-agent",
+        "custom-openai-agent"
+      ],
+      "prompt_routing": "default",
+      "default_agent": null
+    }
+  ]
+}

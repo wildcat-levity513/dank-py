@@ -1,0 +1,23 @@
+{
+  "name": "03-pydanticai-structured-agent",
+  "version": "1",
+  "agents": [
+    {
+      "name": "pydanticai-agent",
+      "id": "pydanticai-agent",
+      "entry": {
+        "file": "pydanticai_agent.py",
+        "symbol": "agent",
+        "method": "invoke",
+        "call_type": "method",
+        "call_style": "single_arg"
+      },
+      "io": {
+        "input": { "model": "pydanticai_agent:PromptInput", "schema": null },
+        "output": { "model": "pydanticai_agent:PromptOutput", "schema": null },
+        "strict_output": true
+      }
+    }
+  ],
+  "bundles": []
+}

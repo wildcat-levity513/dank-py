@@ -1,0 +1,3 @@
+crewai
+python-dotenv
+setuptools<81

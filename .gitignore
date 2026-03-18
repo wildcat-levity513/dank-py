@@ -1,0 +1,27 @@
+# Python environments and caches
+.venv/
+venv/
+**/__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local secrets
+.env
+.env.*
+
+# Build/runtime artifacts
+.dank-py/
+*.egg-info/
+build/
+dist/
+
+# OS/editor noise
+.DS_Store
+.idea/
+.vscode/
+
+# Internal-only release/docs (do not publish)
+JS_PARITY_GAPS.md
+RELEASE.md
+scripts/

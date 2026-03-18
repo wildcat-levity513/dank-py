@@ -1,0 +1,37 @@
+{
+  "name": "05-langgraph-websearch-agent",
+  "version": "1",
+  "agents": [
+    {
+      "name": "websearch-agent",
+      "id": "websearch-agent",
+      "entry": {
+        "file": "websearch_agent.py",
+        "symbol": "run",
+        "method": null,
+        "call_type": "auto",
+        "call_style": "kwargs"
+      },
+      "io": {
+        "input": {
+          "model": null,
+          "schema": {
+            "type": "object",
+            "required": ["prompt"],
+            "properties": {
+              "prompt": { "type": "string" },
+              "verbose": { "type": "boolean" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "output": {
+          "model": null,
+          "schema": { "type": "string" }
+        },
+        "strict_output": true
+      }
+    }
+  ],
+  "bundles": []
+}

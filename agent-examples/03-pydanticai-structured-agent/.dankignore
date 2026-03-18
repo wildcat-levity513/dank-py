@@ -1,0 +1,11 @@
+# Files excluded from dank build contexts
+.venv/
+venv/
+.env
+.env.*
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.git/
+.dank-py/
+.DS_Store

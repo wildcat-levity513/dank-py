@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling>=1.24.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dank-py"
+version = "1.0.0"
+description = "Framework-agnostic Python agent containerization CLI for Dank Cloud"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  { name = "Dank" }
+]
+license = { text = "MIT" }
+dependencies = [
+  "pydantic>=2.7.0,<3.0.0",
+  "fastapi>=0.110.0,<1.0.0",
+  "uvicorn>=0.29.0,<1.0.0",
+  "jsonschema>=4.22.0,<5.0.0",
+  "websockets>=12.0,<13.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0,<9.0.0"
+]
+
+[project.scripts]
+dank = "dank_py.cli:main"
+dank-py = "dank_py.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dank_py", "src/dank_runtime"]
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "JS_PARITY_GAPS.md",
+  "RELEASE.md",
+  "scripts/**",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

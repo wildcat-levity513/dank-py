@@ -1,0 +1,50 @@
+{
+  "name": "04-llamaindex-query-agent",
+  "version": "1",
+  "agents": [
+    {
+      "name": "llamaindex-agent",
+      "id": "llamaindex-agent",
+      "entry": {
+        "file": "llamaindex_agent.py",
+        "symbol": "agent",
+        "method": "run",
+        "call_type": "method",
+        "call_style": "kwargs"
+      },
+      "io": {
+        "input": {
+          "model": null,
+          "schema": {
+            "type": "object",
+            "required": ["prompt"],
+            "properties": {
+              "prompt": { "type": "string" },
+              "user_id": { "type": ["string", "null"] },
+              "conversation_id": { "type": ["string", "null"] }
+            },
+            "additionalProperties": true
+          }
+        },
+        "output": {
+          "model": null,
+          "schema": {
+            "type": "object",
+            "required": ["response"],
+            "properties": {
+              "response": { "type": "string" },
+              "framework": { "type": "string" },
+              "mode": { "type": "string" },
+              "user_id": { "type": ["string", "null"] },
+              "conversation_id": { "type": ["string", "null"] },
+              "error": { "type": "string" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "strict_output": true
+      }
+    }
+  ],
+  "bundles": []
+}
