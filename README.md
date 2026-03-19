@@ -1,33 +1,79 @@
-# dank-py
-
-<p align="left">
-  <img alt="Python" src="https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white">
-  <img alt="Runtime" src="https://img.shields.io/badge/Runtime-Docker-2496ED?logo=docker&logoColor=white">
-  <img alt="License" src="https://img.shields.io/badge/License-MIT-2EA44F">
-  <img alt="API" src="https://img.shields.io/badge/API-health%20%7C%20prompt%20%7C%20status%20%7C%20metrics-6f42c1">
+<p align="center">
+  <img src="./assets/readme-hero.svg" alt="dank-py hero" width="100%">
 </p>
 
-<p align="left">
-  <a href="https://pypi.org/project/dank-py/">PyPI</a>
-  ·
-  <a href="https://cloud.dank-ai.xyz">Dank Cloud</a>
+<h1 align="center">dank-py</h1>
+
+<p align="center">
+  <strong>Framework-agnostic Python CLI for turning existing agent code into Dockerized HTTP microservices with a consistent runtime contract.</strong>
 </p>
 
-Framework-agnostic Python CLI for turning existing agent code into Dockerized HTTP microservices with a consistent runtime contract.
+<p align="center">
+  <a href="https://pypi.org/project/dank-py/">
+    <img alt="PyPI" src="https://img.shields.io/badge/PyPI-dank--py-0A66C2?style=for-the-badge&logo=pypi&logoColor=white">
+  </a>
+  <a href="https://cloud.dank-ai.xyz">
+    <img alt="Dank Cloud" src="https://img.shields.io/badge/Dank%20Cloud-managed%20deployments-111827?style=for-the-badge&logo=googlecloud&logoColor=white">
+  </a>
+</p>
 
-Turn existing Python agents into production-ready microservices in two commands, with no agent-code rewrites:
-- no code rewrites required,
-- standardized HTTP runtime contract,
-- repeatable dependency locking + validation,
-- built-in observability (status, metrics, logs, traces),
-- optional multi-agent bundling for runtime efficiency.
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white">
+  <img alt="Runtime" src="https://img.shields.io/badge/Runtime-Docker-2496ED?style=flat-square&logo=docker&logoColor=white">
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-2EA44F?style=flat-square">
+  <img alt="API" src="https://img.shields.io/badge/API-health%20%7C%20prompt%20%7C%20status%20%7C%20metrics-6f42c1?style=flat-square">
+  <img alt="Observability" src="https://img.shields.io/badge/Observability-logs%20%7C%20traces-0F766E?style=flat-square">
+</p>
 
-If you want managed infrastructure instead of self-hosting containers, use [Dank Cloud](https://cloud.dank-ai.xyz).  
-Dank Cloud can onboard directly from your GitHub repo and handles packaging, deploys, scaling, auth, logging/tracing & monitoring, and supporting infra (like hosted vector DB + MCP) for you.
+<p align="center">
+  <a href="https://pypi.org/project/dank-py/"><strong>PyPI</strong></a>
+  &nbsp;&nbsp;•&nbsp;&nbsp;
+  <a href="https://cloud.dank-ai.xyz"><strong>Dank Cloud</strong></a>
+</p>
 
-In short:
-- `dank-py`: local/self-hosted packaging and runtime control.
-- Dank Cloud: managed microservice deployment and operations, built on top of `dank-py`.
+> Turn existing Python agents into production-ready microservices in two commands, with no agent-code rewrites.
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>⚡ no code rewrites required</strong>
+    </td>
+    <td width="50%" valign="top">
+      <strong>🌐 standardized HTTP runtime contract</strong>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>🧪 repeatable dependency locking + validation</strong>
+    </td>
+    <td width="50%" valign="top">
+      <strong>📡 built-in observability (status, metrics, logs, traces)</strong>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top">
+      <strong>📦 optional multi-agent bundling for runtime efficiency</strong>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      ☁️ If you want managed infrastructure instead of self-hosting containers, use <a href="https://cloud.dank-ai.xyz"><strong>Dank Cloud</strong></a>.<br><br>
+      Dank Cloud can onboard directly from your GitHub repo and handles packaging, deploys, scaling, auth, logging/tracing &amp; monitoring, and supporting infra (like hosted vector DB + MCP) for you.
+    </td>
+    <td width="50%" valign="top">
+      <strong>In short:</strong><br><br>
+      🛠️ <code>dank-py</code>: local/self-hosted packaging and runtime control.<br><br>
+      🚀 Dank Cloud: managed microservice deployment and operations, built on top of <code>dank-py</code>.
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <img alt="divider" src="https://img.shields.io/badge/-core%20documentation-111827?style=for-the-badge">
+</p>
 
 ## Table of Contents
 
@@ -48,6 +94,10 @@ In short:
 
 ## Why dank-py
 
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-why%20dank--py-1F2937?style=flat-square">
+</p>
+
 - Works with existing agent code
   - Framework-agnostic support across LangChain, LangGraph, CrewAI, PydanticAI, LlamaIndex, or custom OpenAI/SDK implementations.
   - Auto-inspects entrypoints and I/O hints to bootstrap `dank.config.json`.
@@ -66,6 +116,10 @@ In short:
 
 ## In 2 Commands
 
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-in%202%20commands-1F2937?style=flat-square">
+</p>
+
 ```bash
 dank-py auto-init --strict
 dank-py run
@@ -79,6 +133,10 @@ That flow will:
 
 ## Architecture
 
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-architecture-1F2937?style=flat-square">
+</p>
+
 ```mermaid
 flowchart LR
     A["Existing Python Agent Code"] --> B["dank-py auto-init"]
@@ -90,6 +148,10 @@ flowchart LR
 ```
 
 ## Install
+
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-install-1F2937?style=flat-square">
+</p>
 
 ### Requirements
 
@@ -114,6 +176,10 @@ Both command names are available:
 - `dank-py`
 
 ## Quick Start
+
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-quick%20start-1F2937?style=flat-square">
+</p>
 
 ```bash
 # 1) Scaffold config and ignore files
@@ -142,6 +208,10 @@ dank-py auto-init --strict
 ```
 
 ## Command Reference
+
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-command%20reference-1F2937?style=flat-square">
+</p>
 
 ### Version
 
@@ -420,6 +490,10 @@ dank-py clean [flags]
 
 ## Configuration Reference (`dank.config.json`)
 
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-configuration%20reference-1F2937?style=flat-square">
+</p>
+
 ### Top-level fields
 
 | Field | Type | Required | Notes |
@@ -511,6 +585,10 @@ Default `dank-py run` behavior for this config:
 
 ## Runtime API Contract
 
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-runtime%20api%20contract-1F2937?style=flat-square">
+</p>
+
 All runtime containers expose:
 
 | Endpoint | Purpose |
@@ -568,6 +646,10 @@ Single-agent containers:
 
 ## Logging and Observability
 
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-logging%20and%20observability-1F2937?style=flat-square">
+</p>
+
 Runtime keeps an in-memory log buffer and supports:
 - query endpoints (`/logs`, `/logs/stats`)
 - websocket streaming (`/logs/stream`)
@@ -583,6 +665,10 @@ CLI support:
 - `dank-py logs --follow <target>`
 
 ## Environment and Secrets
+
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-environment%20and%20secrets-1F2937?style=flat-square">
+</p>
 
 ### Runtime env injection (recommended)
 
@@ -605,6 +691,10 @@ Recommended:
 
 ## Build vs Build:Prod
 
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-build%20vs%20build%3Aprod-1F2937?style=flat-square">
+</p>
+
 - `build`
   - local Docker image build
   - best for local development and quick iteration
@@ -616,6 +706,10 @@ If you only need local execution, use `run` (or `build` + `run --no-build`).
 
 ## Agent Examples
 
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-agent%20examples-1F2937?style=flat-square">
+</p>
+
 See [`agent-examples/`](./agent-examples) for framework-diverse templates:
 
 - [`01-multi-agent-mixed-repo`](./agent-examples/01-multi-agent-mixed-repo)
@@ -625,6 +719,10 @@ See [`agent-examples/`](./agent-examples) for framework-diverse templates:
 - [`05-langgraph-websearch-agent`](./agent-examples/05-langgraph-websearch-agent)
 
 ## Troubleshooting
+
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-troubleshooting-1F2937?style=flat-square">
+</p>
 
 ### Docker not installed/running
 
@@ -657,10 +755,18 @@ Use exact container name from `dank-py status`.
 
 ## Release
 
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-release-1F2937?style=flat-square">
+</p>
+
 Release and publish workflow:
 - [`RELEASE.md`](./RELEASE.md)
 - [`scripts/release.py`](./scripts/release.py)
 
 ## License
+
+<p align="center">
+  <img alt="section divider" src="https://img.shields.io/badge/-license-1F2937?style=flat-square">
+</p>
 
 MIT
