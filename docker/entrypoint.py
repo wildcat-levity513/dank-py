@@ -875,7 +875,7 @@ def _status_payload(agent_id: str | None = None) -> dict[str, Any]:
 
 _stream_capture.start()
 initialize_runtime()
-app = FastAPI(title="Dank Python Runtime", version="1.0.0")
+app = FastAPI(title="Dank Python Runtime", version="1.0.2")
 
 
 @app.get("/health")

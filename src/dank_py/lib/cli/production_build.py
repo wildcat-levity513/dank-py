@@ -70,18 +70,27 @@ def _build_image_name(
     namespace: str | None,
     tag_by_agent: bool,
 ) -> str:
+    def _normalize_repo_path(value: str) -> str:
+        parts = [segment.strip() for segment in str(value).split("/") if segment.strip()]
+        if not parts:
+            return manager.normalize_docker_name(value)
+        return "/".join(manager.normalize_docker_name(part) for part in parts)
+
     normalized_target = manager.normalize_docker_name(target_name)
     normalized_tag = manager.normalize_docker_name(tag)
 
     if tag_by_agent:
-        repo_base = manager.normalize_docker_name(namespace or "dank-py-agent")
+        repo_base = _normalize_repo_path(namespace or "dank-py-agent")
         final_tag = normalized_target
     else:
-        repo_base = normalized_target
-        final_tag = normalized_tag
-
-    if namespace and not tag_by_agent:
-        repo_base = f"{manager.normalize_docker_name(namespace)}/{repo_base}"
+        if namespace:
+            # For cloud registries (e.g. ECR), keep namespace as the repository path
+            # and tag by target so all related images can live under one repository.
+            repo_base = _normalize_repo_path(namespace)
+            final_tag = normalized_target
+        else:
+            repo_base = normalized_target
+            final_tag = normalized_tag
     if registry:
         repo_base = f"{registry.rstrip('/')}/{repo_base}"
 

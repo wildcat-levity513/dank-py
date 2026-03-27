@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "dank-py"
-version = "1.0.0"
+version = "1.0.2"
 description = "Framework-agnostic Python agent containerization CLI for Dank Cloud"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -31,6 +31,9 @@ dank-py = "dank_py.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/dank_py", "src/dank_runtime"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"docker" = "dank_py/docker_assets"
 
 [tool.hatch.build.targets.sdist]
 exclude = [

@@ -10,8 +10,10 @@ import shutil
 import socket
 import subprocess
 import sys
+import tempfile
 import time
 from dataclasses import dataclass
+from importlib import resources
 from pathlib import Path
 from typing import Any
 
@@ -69,8 +71,54 @@ class ResolvedLogTarget:
 
 class DockerManager:
     def __init__(self) -> None:
-        self.package_root = Path(__file__).resolve().parents[4]
+        self.source_root = Path(__file__).resolve().parents[4]
         self._docker_cmd: str | None = None
+
+    def _has_source_assets(self) -> bool:
+        return (
+            (self.source_root / "docker" / "entrypoint.py").exists()
+            and (self.source_root / "docker" / "default_index.py").exists()
+            and (self.source_root / "docker" / "Dockerfile").exists()
+            and (self.source_root / "src" / "dank_runtime").exists()
+        )
+
+    def _docker_asset_bytes(self, filename: str) -> bytes:
+        source_asset = self.source_root / "docker" / filename
+        if source_asset.exists():
+            return source_asset.read_bytes()
+
+        try:
+            packaged_asset = resources.files("dank_py").joinpath("docker_assets", filename)
+            return packaged_asset.read_bytes()
+        except Exception as exc:  # noqa: BLE001
+            raise DockerCommandError(
+                f"Docker asset '{filename}' not found in source tree or installed package."
+            ) from exc
+
+    def _write_docker_asset(self, filename: str, destination: Path) -> None:
+        destination.write_bytes(self._docker_asset_bytes(filename))
+
+    def _copy_runtime_package(self, destination: Path) -> None:
+        source_runtime = self.source_root / "src" / "dank_runtime"
+        if source_runtime.exists():
+            shutil.copytree(source_runtime, destination)
+            return
+
+        try:
+            runtime_root = resources.files("dank_runtime")
+        except Exception as exc:  # noqa: BLE001
+            raise DockerCommandError("dank_runtime package assets are not available.") from exc
+
+        self._copy_resource_tree(runtime_root, destination)
+
+    def _copy_resource_tree(self, source: Any, destination: Path) -> None:
+        destination.mkdir(parents=True, exist_ok=True)
+        for child in source.iterdir():
+            child_destination = destination / child.name
+            if child.is_dir():
+                self._copy_resource_tree(child, child_destination)
+            else:
+                child_destination.write_bytes(child.read_bytes())
 
     def _docker_candidates(self) -> list[str]:
         env_cmd = str(os.getenv("DANK_PY_DOCKER_CMD", "")).strip()
@@ -372,22 +420,51 @@ class DockerManager:
         if self.image_exists(image_name) and not force:
             return image_name
 
-        dockerfile = self.package_root / "docker" / "Dockerfile"
-        if not dockerfile.exists():
-            raise DockerCommandError(f"Base Dockerfile not found at {dockerfile}")
+        if self._has_source_assets():
+            dockerfile = self.source_root / "docker" / "Dockerfile"
+            self._run(
+                [
+                    "docker",
+                    "build",
+                    "-t",
+                    image_name,
+                    "-f",
+                    str(dockerfile),
+                    str(self.source_root),
+                ],
+                stream_output=True,
+            )
+            return image_name
 
-        self._run(
-            [
-                "docker",
-                "build",
-                "-t",
-                image_name,
-                "-f",
-                str(dockerfile),
-                str(self.package_root),
-            ],
-            stream_output=True,
-        )
+        temp_context = Path(tempfile.mkdtemp(prefix="dank-py-base-context-"))
+        try:
+            docker_dir = temp_context / "docker"
+            docker_dir.mkdir(parents=True, exist_ok=True)
+            self._write_docker_asset("Dockerfile", docker_dir / "Dockerfile")
+            self._write_docker_asset("entrypoint.py", docker_dir / "entrypoint.py")
+            self._write_docker_asset("default_index.py", docker_dir / "default_index.py")
+            self._write_docker_asset(
+                "requirements-runtime.txt",
+                docker_dir / "requirements-runtime.txt",
+            )
+
+            runtime_destination = temp_context / "src" / "dank_runtime"
+            self._copy_runtime_package(runtime_destination)
+
+            self._run(
+                [
+                    "docker",
+                    "build",
+                    "-t",
+                    image_name,
+                    "-f",
+                    str(docker_dir / "Dockerfile"),
+                    str(temp_context),
+                ],
+                stream_output=True,
+            )
+        finally:
+            shutil.rmtree(temp_context, ignore_errors=True)
         return image_name
 
     def pull_base_image(self, image_name: str = DEFAULT_BASE_IMAGE) -> str:
@@ -553,9 +630,9 @@ class DockerManager:
 
         runtime_dir = context_root / "runtime"
         runtime_dir.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(self.package_root / "docker" / "entrypoint.py", runtime_dir / "entrypoint.py")
-        shutil.copy2(self.package_root / "docker" / "default_index.py", runtime_dir / "default_index.py")
-        shutil.copytree(self.package_root / "src" / "dank_runtime", runtime_dir / "dank_runtime")
+        self._write_docker_asset("entrypoint.py", runtime_dir / "entrypoint.py")
+        self._write_docker_asset("default_index.py", runtime_dir / "default_index.py")
+        self._copy_runtime_package(runtime_dir / "dank_runtime")
 
         requirements_file = None
         for candidate in ("requirements.lock.txt", "requirements.txt"):
@@ -595,9 +672,9 @@ class DockerManager:
 
         runtime_dir = context_root / "runtime"
         runtime_dir.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(self.package_root / "docker" / "entrypoint.py", runtime_dir / "entrypoint.py")
-        shutil.copy2(self.package_root / "docker" / "default_index.py", runtime_dir / "default_index.py")
-        shutil.copytree(self.package_root / "src" / "dank_runtime", runtime_dir / "dank_runtime")
+        self._write_docker_asset("entrypoint.py", runtime_dir / "entrypoint.py")
+        self._write_docker_asset("default_index.py", runtime_dir / "default_index.py")
+        self._copy_runtime_package(runtime_dir / "dank_runtime")
 
         requirements_file = None
         for candidate in ("requirements.lock.txt", "requirements.txt"):
